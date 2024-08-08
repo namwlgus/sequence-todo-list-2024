@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list</title>
+    <style>
+      /* 간단한 스타일링 */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      input[type='text'] {
+        padding: 8px;
+        width: 200px;
+      }
+      button {
+        padding: 8px;
+        margin-left: 5px;
+      }
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      li {
+        padding: 5px 0;
+        display: flex;
+        align-items: center;
+      }
+      li.completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>To do list</h1>
+    <input type="text" id="todoInput" placeholder="할 일을 입력하세요" />
+    <button onclick="addTodo()">추가</button>
+
+    <ul id="todoList">
+      <!-- 할 일이 여기에 추가됩니다 -->
+    </ul>
+
+    <script>
+      // '추가' 버튼 클릭 시 실행되는 함수
+      function addTodo() {
+        // 입력 필드에서 할 일을 가져옴
+        let todoInput = document.getElementById('todoInput');
+        let todoText = todoInput.value;
+
+        // 할 일이 비어있지 않을 경우에만 추가
+        if (todoText.trim() !== '') {
+          let todoList = document.getElementById('todoList');
+          let listItem = document.createElement('li');
+
+          // 체크박스 생성
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.style.marginRight = '10px';
+          checkbox.addEventListener('change', function () {
+            // 체크박스 상태에 따라 할 일을 완료 처리
+            if (this.checked) {
+              listItem.classList.add('completed');
+            } else {
+              listItem.classList.remove('completed');
+            }
+          });
+
+          // 할 일 텍스트 추가
+          listItem.appendChild(checkbox);
+          listItem.appendChild(document.createTextNode(todoText));
+          todoList.appendChild(listItem);
+
+          // 삭제 버튼 생성
+          let deleteButton = document.createElement('button');
+          deleteButton.textContent = '삭제';
+          deleteButton.className = 'delete-btn';
+          deleteButton.addEventListener('click', function () {
+            // 해당 할 일을 목록에서 제거
+            todoList.removeChild(listItem);
+          });
+
+          listItem.appendChild(deleteButton);
+          todoList.appendChild(listItem);
+
+          // 입력 필드를 비움
+          todoInput.value = '';
+        } else {
+          alert('할 일을 입력하세요!');
+        }
+      }
+    </script>
+  </body>
+</html>
